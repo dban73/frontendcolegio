@@ -8,9 +8,9 @@
               <q-input
                 outlined
                 dense
-                label="nombre"
+                label="nombres"
                 required
-                v-model="docente.nombre"
+                v-model="estudiante.nombres"
               />
             </div>
             <div class="col-3">
@@ -18,18 +18,27 @@
                 type="date"
                 outlined
                 dense
-                label="fechanac"
+                label="fecha_nacimiento"
                 required
-                v-model="docente.fechanac"
+                v-model="estudiante.fecha_nacimiento"
               />
             </div>
             <div class="col-3">
               <q-input
                 outlined
                 dense
-                label="sueldo"
+                label="paterno"
                 required
-                v-model="docente.sueldo"
+                v-model="estudiante.paterno"
+              />
+            </div>
+            <div class="col-3">
+              <q-input
+                outlined
+                dense
+                label="materno"
+                required
+                v-model="estudiante.materno"
               />
             </div>
             <div class="col-3 flex flex-center">
@@ -46,23 +55,39 @@
         </q-form>
       </div>
       <div class="col-12">
-        <q-table title="Mis cursos" :columns="columns" :rows="docentes" dense>
+        <q-table
+          title="Mis cursos"
+          :columns="columns"
+          :rows="estudiantes"
+          dense
+        >
           <template v-slot:body="props">
             <q-tr :props="props">
               <q-td key="id" :props="props">
                 <q-badge>{{ props.row.id }}</q-badge>
               </q-td>
-              <q-td key="nombre" :props="props">
-                <q-badge color="teal">{{ props.row.nombre }}</q-badge>
+              <q-td key="paterno" :props="props">
+                <q-badge color="teal">{{ props.row.paterno }}</q-badge>
               </q-td>
-              <q-td key="fechanac" :props="props">
-                <q-badge color="negative">{{ props.row.fechanac }}</q-badge>
+              <q-td key="materno" :props="props">
+                <q-badge color="teal">{{ props.row.materno }}</q-badge>
               </q-td>
-              <q-td key="activo" :props="props">
-                <q-badge color="negative">{{ props.row.activo }}</q-badge>
+              <q-td key="nombres" :props="props">
+                <q-badge color="teal">{{ props.row.nombres }}</q-badge>
               </q-td>
-              <q-td key="sueldo" :props="props">
-                <q-badge color="negative">{{ props.row.sueldo }}</q-badge>
+              <q-td key="ci" :props="props">
+                <q-badge color="negative">{{ props.row.ci }}</q-badge>
+              </q-td>
+              <q-td key="sexo" :props="props">
+                <q-badge color="negative">{{ props.row.sexo }}</q-badge>
+              </q-td>
+              <q-td key="fecha_nacimiento" :props="props">
+                <q-badge color="negative">{{
+                  props.row.fecha_nacimiento
+                }}</q-badge>
+              </q-td>
+              <q-td key="celular" :props="props">
+                <q-badge color="negative">{{ props.row.celular }}</q-badge>
               </q-td>
               <q-td key="opciones" :props="props">
                 <q-btn
@@ -92,20 +117,27 @@ import { date } from "quasar";
 export default {
   data() {
     return {
-      docentes: [],
-      docente: {
-        fechanac: date.formatDate(Date.now(), "YYYY-MM-DD"),
-        sueldo: "",
-        nombre: "",
+      estudiantes: [],
+      estudiante: {
+        fecha_nacimiento: date.formatDate(Date.now(), "YYYY-MM-DD"),
+        paterno: "",
+        materno: "",
+        nombres: "",
       },
       boolcrear: true,
       columns: [
         { name: "id", label: "#", field: "id" },
-        { name: "nombre", label: "Nombre", field: "nombre" },
-        { name: "fechanac", label: "fechanac", field: "fechanac" },
-        { name: "activo", label: "activo", field: "activo" },
-        { name: "sueldo", label: "sueldo", field: "sueldo" },
-        { name: "opciones", label: "Opciones", field: "opciones" },
+        { name: "paterno", label: "Paterno", field: "paterno" },
+        { name: "materno", label: "Materno", field: "materno" },
+        { name: "nombres", label: "Nombres", field: "nombres" },
+        { name: "ci", label: "Ci", field: "ci" },
+        { name: "sexo", label: "Sexo", field: "sexo" },
+        {
+          name: "fecha_nacimiento",
+          label: "Fecha_nacimiento",
+          field: "fecha_nacimiento",
+        },
+        { name: "celular", label: "Celular", field: "celular" },
       ],
     };
   },
@@ -116,8 +148,8 @@ export default {
     crear() {
       this.$q.loading.show();
       if (this.boolcrear)
-        this.$api.post("/docente", this.docente).then((res) => {
-          this.docente = {
+        this.$api.post("/estudiante", this.estudiante).then((res) => {
+          this.estudiante = {
             fechanac: date.formatDate(Date.now(), "YYYY-MM-DD"),
           };
           this.misdatos();
@@ -125,9 +157,9 @@ export default {
         });
       else
         this.$api
-          .put("/docente/" + this.docente.id, this.docente)
+          .put("/estudiante/" + this.estudiante.id, this.estudiante)
           .then((res) => {
-            this.docente = {
+            this.estudiante = {
               fechanac: date.formatDate(Date.now(), "YYYY-MM-DD"),
             };
             this.misdatos();
@@ -135,19 +167,19 @@ export default {
           });
     },
     misdatos() {
-      this.$api.get("/docente").then((res) => {
-        this.docentes = res.data;
-        console.log(this.docentes);
+      this.$api.get("/estudiante").then((res) => {
+        this.estudiantes = res.data;
+        console.log(this.estudiantes);
       });
     },
     eliminar(estudiante) {
       if (confirm("Seguro de eliminar?"))
-        this.$api.delete("/docente/" + docente.id).then((res) => {
+        this.$api.delete("/estudiante/" + estudiante.id).then((res) => {
           this.misdatos();
         });
     },
-    modificar(docente) {
-      this.docente = docente;
+    modificar(estudiante) {
+      this.estudiante = estudiante;
       this.boolcrear = false;
     },
   },
