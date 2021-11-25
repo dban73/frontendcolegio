@@ -21,16 +21,22 @@
       <q-list>
         <q-item-label header> Essential Links </q-item-label>
 
-        <q-item to="materia" clickable v-ripple>
+        <q-item to="Materia" clickable v-ripple>
           <q-item-section>Materias</q-item-section>
           <q-item-section avatar>
             <q-icon color="primary" name="calculate" />
           </q-item-section>
         </q-item>
-        <q-item to="docente" clickable v-ripple>
+        <q-item to="Docente" clickable v-ripple>
           <q-item-section>Docentes</q-item-section>
           <q-item-section avatar>
             <q-icon color="primary" name="people" />
+          </q-item-section>
+        </q-item>
+        <q-item to="Estudiante" clickable v-ripple>
+          <q-item-section>Estudiantes</q-item-section>
+          <q-item-section avatar>
+            <q-icon color="primary" name="book" />
           </q-item-section>
         </q-item>
       </q-list>

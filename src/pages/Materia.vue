@@ -76,7 +76,7 @@ export default {
   data() {
     return {
       materias: [],
-      materia: { nombre: "" },
+      materia: { nombre: "", codigo: "" },
       boolcrear: true,
       columns: [
         { name: "id", label: "#", field: "id" },
